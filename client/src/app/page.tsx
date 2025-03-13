@@ -1,101 +1,124 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
+
+const categories = [
+  { name: "Produk Terbaru", image: "/new.png" },
+  { name: "Sayur", image: "/vegetables.png" },
+  { name: "Buah", image: "/fruits.png" },
+  { name: "Protein", image: "/protein.png" },
+  { name: "Sembako", image: "/groceries.png" },
+];
+
+const products = [
+  {
+    id: 1,
+    name: "Daging Sapi Rendang",
+    price: 39900,
+    weight: "250g, 500g",
+    image: "/beef.png",
+  },
+  {
+    id: 2,
+    name: "Ikan1",
+    price: 51900,
+    weight: "300g",
+    image: "",
+  },
+  {
+    id: 3,
+    name: "Ikan2",
+    price: 51900,
+    weight: "300g",
+    image: "",
+  },
+  {
+    id: 4,
+    name: "Ikan3",
+    price: 51900,
+    weight: "300g",
+    image: "",
+  },
+  {
+    id: 5,
+    name: "Ikan4",
+    price: 51900,
+    weight: "300g",
+    image: "",
+  },
+  {
+    id: 6,
+    name: "Ikan5",
+    price: 51900,
+    weight: "300g",
+    image: "",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [search, setSearch] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold">Mau Pesan Apa Hari Ini?</h1>
+      <p className="text-gray-600 mb-4">
+        Produk-produk yang dijual di PesanPanen adalah hasil produk petani asli
+        Indonesia yang berkualitas, organik, dan ramah lingkungan.
+      </p>
+
+      <div className="relative mb-6">
+        <input
+          type="text"
+          className="w-full p-2 border rounded-md pl-10"
+          placeholder="Pencarian..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <FaSearch className="absolute left-3 top-3 text-gray-500" />
+      </div>
+
+      <div className="flex space-x-4 overflow-x-auto">
+        {categories.map((category, index) => (
+          <div key={index} className="text-center">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={category.image}
+              alt={category.name}
+              width={80}
+              height={80}
+              className="rounded-md"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <p className="text-sm mt-2">{category.name}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-2xl font-semibold mt-8">Special Hari Ini!</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+        {products.map((product) => (
+          <div key={product.id} className="border p-4 rounded-md text-center">
+            {product.image ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={120}
+                height={120}
+                className="mx-auto"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-gray-200 mx-auto flex items-center justify-center">
+                <FaShoppingCart className="text-gray-500 text-2xl" />
+              </div>
+            )}
+            <p className="mt-2 font-medium">{product.name}</p>
+            <p className="text-red-500 font-semibold">
+              Rp{product.price.toLocaleString()}
+            </p>
+            <p className="text-sm text-gray-500">{product.weight}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
