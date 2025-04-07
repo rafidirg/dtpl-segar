@@ -11,7 +11,7 @@ const product = {
   category: "Sayur",
   storage: "7-10 hari",
   availability: "Besok",
-  type: "Konvensional",
+  type: "Penyimpanan Dingin",
   description:
     "Tersedia dalam pilihan konvensional dan imperfect. Kulit bawang bombay imperfect agak terbuka. Namun rasa dan nutrisinya tetap sama. Simpan di tempat kering agar tetap tahan lama.",
   storageInstructions: [
@@ -57,10 +57,10 @@ export default function ProductView() {
               </button>
             ))}
           </div>
-          <span className="bg-gray-200 px-3 py-1 rounded-md text-sm">
+          <span className="inline-flex items-center bg-green-500 text-white px-3 py-2 rounded-md">
             {product.type}
           </span>
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 mt-3">
             Tersedia:{" "}
             <span className="text-green-500">{product.availability}</span>
           </p>
