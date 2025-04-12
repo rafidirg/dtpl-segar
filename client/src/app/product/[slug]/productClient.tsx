@@ -68,7 +68,20 @@ export default function ProductClient({ product }: ProductClientProps) {
           </p>
           <p>
             Tersedia dalam:{" "}
-            <span className="bg-gray-400 rounded-md text-white px-1 py-0.5">{product.Tersedia}</span>
+            {product.Tersedia.includes("besok") ? (
+              <span className="bg-gray-400 rounded-md text-white px-1 py-0.5">Besok</span>
+            ): product.Tersedia.includes("satu minggu") ? (
+              <span className="bg-red-400 rounded-md text-white px-1 py-0.5">1 minggu</span>
+            ): product.Tersedia.includes("dua minggu") ? (
+              <span className="bg-red-500 rounded-md text-white px-1 py-0.5">2 minggu</span>
+            ): product.Tersedia.includes("tiga minggu") ? (
+              <span className="bg-red-550 rounded-md text-white px-1 py-0.5">3 minggu</span>
+            ): product.Tersedia.includes("lebih dari") ? (
+              <span className="bg-red-650 rounded-md text-white px-1 py-0.5">$\gt$ 1 bulan</span>
+            ): (
+              <span className="bg-red-600 rounded-md text-white px-1 py-0.5">1 bulan</span>
+            )}
+            
           </p>
           <h2 className="text-xl font-semibold mt-6">Informasi Produk</h2>
           <p>
