@@ -16,6 +16,8 @@ export interface ProductProps {
   price: number;
   slug: string;
   image: ImageProps[];
+  Tersedia: string;
+  isPreOrder: boolean;
 }
 
 export interface CategoryProps {

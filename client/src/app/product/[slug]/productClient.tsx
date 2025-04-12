@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { FaShoppingCart } from "react-icons/fa";
+import { TbShoppingCart, TbShoppingCartExclamation } from "react-icons/tb";
 import parse from "html-react-parser";
 import { ProductProps } from "@/types";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
@@ -65,6 +66,10 @@ export default function ProductClient({ product }: ProductClientProps) {
           <p className="text-gray-500 mt-2">
             Harga: Rp{product.price.toLocaleString()}
           </p>
+          <p>
+            Tersedia dalam:{" "}
+            <span className="bg-gray-400 rounded-md text-white px-1 py-0.5">{product.Tersedia}</span>
+          </p>
           <h2 className="text-xl font-semibold mt-6">Informasi Produk</h2>
           <p>
             <strong>Kategori</strong>:{" "}
@@ -73,23 +78,37 @@ export default function ProductClient({ product }: ProductClientProps) {
           <div className="text-gray-600 mt-2 prose prose-green max-w-none">
             <ReactMarkdown>{product.description}</ReactMarkdown>
           </div>
-          <div className="flex items-center mt-6">
-            <button
-              className="px-3 py-2 border rounded-md"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              -
-            </button>
-            <span className="mx-4">{quantity}</span>
-            <button
-              className="px-3 py-2 border rounded-md"
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              +
-            </button>
-            <button className="ml-4 bg-green-500 text-white px-4 py-2 rounded-md flex items-center">
-              <FaShoppingCart className="mr-2" /> Tambah ke Keranjang
-            </button>
+          <div className=" mt-6">
+            {product.isPreOrder ? (
+              <p className="text-red-500">
+              Produk Belum Siap, Silahkan Pre-order!
+              </p>
+            ) : (<p></p>)}
+            <div className="flex items-center">
+              <button
+                className="px-3 py-2 border rounded-md"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              >
+                -
+              </button>
+              <span className="mx-4">{quantity}</span>
+              <button
+                className="px-3 py-2 border rounded-md"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                +
+              </button>
+              {product.isPreOrder ? (
+                <button className="ml-4 bg-red-500 text-white px-4 py-2 rounded-md flex items-center">
+                  <TbShoppingCartExclamation className="mr-2" /> Tambah ke Keranjang
+                </button>
+              ):(
+                <button className="ml-4 bg-green-500 text-white px-4 py-2 rounded-md flex items-center">
+                  <TbShoppingCart className="mr-2" /> Tambah ke Keranjang
+                </button>
+              )}
+              
+            </div>
           </div>
         </div>
       </div>
