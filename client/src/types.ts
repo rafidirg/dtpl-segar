@@ -30,3 +30,15 @@ export interface CategoryProps {
   slug: string;
   image: ImageProps;
 }
+
+export interface CartProps {
+  id: number;
+  documentId: string;
+  userId: string;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  product: ProductProps;
+}
+

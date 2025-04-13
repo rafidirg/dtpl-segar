@@ -1,70 +1,66 @@
-"use client ";
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FaTrash } from "react-icons/fa";
-
-interface CartItem {
-  id: number;
-  seller: string;
-  name: string;
-  variant: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-const cartItems: CartItem[] = [
-  {
-    id: 1,
-    seller: "Petani123",
-    name: "Daging Sapi Rendang",
-    variant: "250 gram",
-    price: 39900,
-    quantity: 1,
-    image: "/beef.png",
-  },
-  {
-    id: 2,
-    seller: "Petani123",
-    name: "Daging Sapi Rendang",
-    variant: "250 gram",
-    price: 39900,
-    quantity: 1,
-    image: "/beef.png",
-  },
-  {
-    id: 3,
-    seller: "Petani123",
-    name: "Daging Sapi Rendang",
-    variant: "250 gram",
-    price: 39900,
-    quantity: 1,
-    image: "/beef.png",
-  },
-];
+import { FaShoppingCart, FaTrash } from "react-icons/fa";
+import { CartProps } from "@/types";
+import { fetchCart, removeFromCart, updateCart } from "@/data/loaders";
+import { getStrapiMedia } from "@/utils/get-strapi-url";
 
 export default function Cart() {
-  const [cart, setCart] = useState<CartItem[]>(cartItems);
+  const [cart, setCart] = useState<CartProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const updateQuantity = (id: number, change: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const userId = "abc";
+        const cartData = await fetchCart(userId, "/api/carts");
+        setCart(cartData.data);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+        setCart([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCartData();
+  }, []);
+
+  const updateQuantity = async (cartId: string, change: number) => {
+    try {
+      const item = cart.find((item) => item.documentId === cartId);
+      const newQuantity = Math.max(1, item!.quantity + change);
+      await updateCart(cartId, newQuantity, "/api/carts");
+      setCart((prevCart) =>
+        prevCart.map((item) =>
+          item.documentId === cartId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update cart item:", error);
+    }
   };
-
-  const removeItem = (id: number) => {
-    setCart(cart.filter((item) => item.id !== id));
+  const removeItem = async (cartId: string) => {
+    try {
+      await removeFromCart(cartId, "/api/carts");
+      setCart((prevCart) =>
+        prevCart.filter((item) => item.documentId !== cartId)
+      );
+    } catch (error) {
+      console.error("Failed to remove cart item:", error);
+    }
   };
 
   const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
+
+  if (loading) {
+    return <div className="text-center">Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto p-6">
@@ -82,40 +78,43 @@ export default function Cart() {
             className="grid grid-cols-5 items-center py-4 border-b"
           >
             <div className="col-span-2 flex items-center">
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={50}
-                height={50}
-                className="mr-4"
-              />
+              {item.product.image && item.product.image.length > 0 ? (
+                <Image
+                  src={getStrapiMedia(item.product.image[0].url) ?? ""}
+                  alt={item.product.name}
+                  width={50}
+                  height={50}
+                  className="mr-4"
+                />
+              ) : (
+                <FaShoppingCart className="text-gray-500 text-2xl mr-4" />
+              )}
               <div>
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-gray-500">
-                  {item.seller} | {item.variant}
-                </p>
+                <p className="font-medium">{item.product.name}</p>
               </div>
             </div>
-            <div>Rp{item.price.toLocaleString()}</div>
+            <div>Rp{item.product.price.toLocaleString()}</div>
             <div className="flex items-center">
               <button
-                onClick={() => updateQuantity(item.id, -1)}
+                onClick={() => updateQuantity(item.documentId, -1)}
                 className="border px-2"
               >
                 -
               </button>
               <span className="mx-2">{item.quantity}</span>
               <button
-                onClick={() => updateQuantity(item.id, 1)}
+                onClick={() => updateQuantity(item.documentId, 1)}
                 className="border px-2"
               >
                 +
               </button>
             </div>
             <div className="flex justify-between items-center">
-              <span>Rp{(item.price * item.quantity).toLocaleString()}</span>
+              <span>
+                Rp{(item.product.price * item.quantity).toLocaleString()}
+              </span>
               <button
-                onClick={() => removeItem(item.id)}
+                onClick={() => removeItem(item.documentId)}
                 className="text-red-500 ml-4"
               >
                 <FaTrash />

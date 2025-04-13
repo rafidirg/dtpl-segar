@@ -79,7 +79,12 @@ export async function fetchCart(userId: string, path: string) {
     },
     populate: {
       product: {
-        fields: ["name", "price", "image"],
+        fields: ["name", "price", "isPreOrder"],
+        populate: {
+          image: {
+            fields: ["url"],
+          },
+        },
       },
     },
   });
@@ -96,9 +101,34 @@ export async function addToCart(
   return fetchAPI(url.href, {
     method: "POST",
     body: {
-      userId: userId,
-      productId: productId,
-      quantity: quantity,
+      data: {
+        userId: userId,
+        product: productId,
+        quantity: quantity,
+      },
     },
+  });
+}
+
+export async function updateCart(
+  cartId: string,
+  quantity: number,
+  path: string
+) {
+  const url = new URL(`${path}/${cartId}`, BASE_URL);
+  return fetchAPI(url.href, {
+    method: "PUT",
+    body: {
+      data: {
+        quantity: quantity,
+      },
+    },
+  });
+}
+
+export async function removeFromCart(cartId: string, path: string) {
+  const url = new URL(`${path}/${cartId}`, BASE_URL);
+  return fetchAPI(url.href, {
+    method: "DELETE",
   });
 }

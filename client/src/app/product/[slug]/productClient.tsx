@@ -8,6 +8,7 @@ import parse from "html-react-parser";
 import { ProductProps } from "@/types";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
 import ReactMarkdown from "react-markdown";
+import { addToCart } from "@/data/loaders";
 
 interface ProductClientProps {
   product: ProductProps;
@@ -16,6 +17,7 @@ interface ProductClientProps {
 export default function ProductClient({ product }: ProductClientProps) {
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAdding, setIsAdding] = useState(false);
   const images = product.image ?? [];
 
   const handleNext = () => {
@@ -24,6 +26,26 @@ export default function ProductClient({ product }: ProductClientProps) {
 
   const handlePrev = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      setIsAdding(true);
+      const userId = "abc"; // Replace with actual user ID logic
+      const response = await addToCart(
+        userId,
+        product.documentId,
+        quantity,
+        "/api/carts"
+      );
+      console.log("Added to cart:", response);
+      alert("Produk berhasil ditambahkan ke keranjang!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Gagal menambahkan produk ke keranjang.");
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -68,20 +90,45 @@ export default function ProductClient({ product }: ProductClientProps) {
           </p>
           <p>
             Tersedia dalam:{" "}
-            {product.Tersedia.includes("besok") ? (
-              <span className="bg-gray-400 rounded-md text-white px-1 py-0.5">Besok</span>
-            ): product.Tersedia.includes("satu minggu") ? (
-              <span className="bg-yellow-400 rounded-md text-white px-1 py-0.5">1 minggu</span>
-            ): product.Tersedia.includes("dua minggu") ? (
-              <span className="bg-orange-400 rounded-md text-white px-1 py-0.5">2 minggu</span>
-            ): product.Tersedia.includes("tiga minggu") ? (
-              <span className="bg-orange-500 rounded-md text-white px-1 py-0.5">3 minggu</span>
-            ): !product.Tersedia.includes("lebih dari") ? (
-              <span className="bg-red-500 rounded-md text-white px-1 py-0.5">1 bulan</span>
-            ): (
-              <span className="bg-red-600 rounded-md text-white px-1 py-0.5">{">"} 1 bulan</span>
-            )}
-            
+            {(() => {
+              if (product.Tersedia.includes("besok")) {
+                return (
+                  <span className="bg-gray-400 rounded-md text-white px-1 py-0.5">
+                    Besok
+                  </span>
+                );
+              } else if (product.Tersedia.includes("satu minggu")) {
+                return (
+                  <span className="bg-yellow-400 rounded-md text-white px-1 py-0.5">
+                    1 minggu
+                  </span>
+                );
+              } else if (product.Tersedia.includes("dua minggu")) {
+                return (
+                  <span className="bg-orange-400 rounded-md text-white px-1 py-0.5">
+                    2 minggu
+                  </span>
+                );
+              } else if (product.Tersedia.includes("tiga minggu")) {
+                return (
+                  <span className="bg-orange-500 rounded-md text-white px-1 py-0.5">
+                    3 minggu
+                  </span>
+                );
+              } else if (!product.Tersedia.includes("lebih dari")) {
+                return (
+                  <span className="bg-red-500 rounded-md text-white px-1 py-0.5">
+                    1 bulan
+                  </span>
+                );
+              } else {
+                return (
+                  <span className="bg-red-600 rounded-md text-white px-1 py-0.5">
+                    {">"} 1 bulan
+                  </span>
+                );
+              }
+            })()}
           </p>
           <h2 className="text-xl font-semibold mt-6">Informasi Produk</h2>
           <p>
@@ -94,9 +141,11 @@ export default function ProductClient({ product }: ProductClientProps) {
           <div className=" mt-6">
             {product.isPreOrder ? (
               <p className="text-red-500">
-              Produk Belum Siap, Silahkan Pre-order!
+                Produk Belum Siap, Silahkan Pre-order!
               </p>
-            ) : (<p></p>)}
+            ) : (
+              <p></p>
+            )}
             <div className="flex items-center">
               <button
                 className="px-3 py-2 border rounded-md"
@@ -112,15 +161,24 @@ export default function ProductClient({ product }: ProductClientProps) {
                 +
               </button>
               {product.isPreOrder ? (
-                <button className="ml-4 bg-red-500 text-white px-4 py-2 rounded-md flex items-center">
-                  <TbShoppingCartExclamation className="mr-2" /> Tambah ke Keranjang
+                <button
+                  className="ml-4 bg-red-500 text-white px-4 py-2 rounded-md flex items-center"
+                  onClick={handleAddToCart} // Connect the function here
+                  disabled={isAdding} // Disable the button while adding to cart
+                >
+                  <TbShoppingCartExclamation className="mr-2" />
+                  {isAdding ? "Menambahkan..." : "Tambah ke Keranjang"}
                 </button>
-              ):(
-                <button className="ml-4 bg-green-500 text-white px-4 py-2 rounded-md flex items-center">
-                  <TbShoppingCart className="mr-2" /> Tambah ke Keranjang
+              ) : (
+                <button
+                  className="ml-4 bg-green-500 text-white px-4 py-2 rounded-md flex items-center"
+                  onClick={handleAddToCart} // Connect the function here
+                  disabled={isAdding} // Disable the button while adding to cart
+                >
+                  <TbShoppingCart className="mr-2" />
+                  {isAdding ? "Menambahkan..." : "Tambah ke Keranjang"}
                 </button>
               )}
-              
             </div>
           </div>
         </div>
