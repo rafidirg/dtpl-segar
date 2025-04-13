@@ -43,6 +43,20 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
+    },
+    "isPreOrder": {
+      "type": "boolean"
+    },
+    "Tersedia": {
+      "type": "enumeration",
+      "enum": [
+        "besok",
+        "satu minggu",
+        "dua minggu",
+        "tiga minggu",
+        "satu bulan",
+        "lebih dari satu bulan"
+      ]
     }
   }
 }
