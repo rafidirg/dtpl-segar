@@ -4,6 +4,7 @@ import { getCategories, getProducts } from "@/data/loaders";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { TbShoppingCart, TbShoppingCartExclamation } from "react-icons/tb";
 import { CategoryProps, ProductProps } from "@/types";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
 import Link from "next/link";
@@ -99,7 +100,12 @@ export default function Home() {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
         {filteredProducts.map((product) => (
           <Link key={product.id} href={`/product/${product.slug}`}>
-            <div key={product.id} className="border p-4 rounded-md text-center">
+            <div key={product.id} className="relative border p-4 rounded-md text-center">
+              {product.isPreOrder ? (
+              <div className="absolute -top-3 -right-3 bg-red-600 rounded-full w-8 h-8 flex items-center justify-center">
+                <TbShoppingCartExclamation size={16} color="white" />
+              </div>
+              ):(<></>)}
               {product.image ? (
                 <Image
                   src={getStrapiMedia(product.image[0].url) ?? ""}
