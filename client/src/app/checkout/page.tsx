@@ -12,6 +12,8 @@ interface CartItem {
   price: number;
   quantity: number;
   image: string;
+  coldStorageName: string;
+  coldStorageCost: number;
   shippingCost: number;
   estimatedDelivery: string;
 }
@@ -25,6 +27,8 @@ const cartItems: CartItem[] = [
     price: 39900,
     quantity: 1,
     image: "/beef.png",
+    coldStorageName: "Penyimpanan Dingin ❄️",
+    coldStorageCost: 5000,
     shippingCost: 12000,
     estimatedDelivery: "13 - 16 April 2025",
   },
@@ -40,7 +44,7 @@ export default function Checkout() {
   const [selectedPayment, setSelectedPayment] = useState<number>(1);
 
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity + item.shippingCost,
+    (total, item) => total + item.price * item.quantity + item.coldStorageCost + item.shippingCost,
     0
   );
 
@@ -83,9 +87,21 @@ export default function Checkout() {
                 </p>
               </div>
             </div>
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <input type="checkbox" 
+                  className="w-5 h-5 text-green-500"
+                />
+                <p className="font-medium">{item.coldStorageName}</p>
+              </div>
+              <p className="text-green-500 font-semibold">
+                Rp{item.coldStorageCost.toLocaleString()}
+              </p>
+            </div>
           </div>
         ))}
       </div>
+
 
       <div className="bg-white shadow-md rounded-md p-4 mb-6">
         <h2 className="font-semibold mb-2">Metode Pembayaran</h2>
@@ -119,6 +135,10 @@ export default function Checkout() {
         <div className="flex justify-between">
           <p>Total Harga</p>
           <p>Rp{cartItems[0].price.toLocaleString()}</p>
+        </div>
+        <div className="flex justify-between">
+          <p>Biaya Penyimpanan Dingin</p>
+          <p>Rp{cartItems[0].coldStorageCost.toLocaleString()}</p>
         </div>
         <div className="flex justify-between">
           <p>Total Ongkos Kirim</p>
