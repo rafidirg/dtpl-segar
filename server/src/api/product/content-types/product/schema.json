@@ -57,6 +57,9 @@
         "satu bulan",
         "lebih dari satu bulan"
       ]
+    },
+    "cold_storage": {
+      "type": "boolean"
     }
   }
 }

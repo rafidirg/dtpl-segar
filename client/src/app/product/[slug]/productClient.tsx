@@ -135,6 +135,12 @@ export default function ProductClient({ product }: ProductClientProps) {
             <strong>Kategori</strong>:{" "}
             <span className="text-green-500">{product.category}</span>
           </p>
+          {product.cold_storage && (
+            <p>
+              <strong>Cold Storage</strong>:{" "}
+              <span className="text-blue-500">Tersedia</span>
+            </p>
+          )}
           <div className="text-gray-600 mt-2 prose prose-green max-w-none">
             <ReactMarkdown>{product.description}</ReactMarkdown>
           </div>

@@ -499,6 +499,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     category: Schema.Attribute.Enumeration<
       ['Sayur', 'Buah', 'Protein', 'Sembako']
     >;
+    cold_storage: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

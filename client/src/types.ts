@@ -18,6 +18,7 @@ export interface ProductProps {
   image: ImageProps[];
   Tersedia: string;
   isPreOrder: boolean;
+  cold_storage: boolean;
 }
 
 export interface CategoryProps {
@@ -42,3 +43,26 @@ export interface CartProps {
   product: ProductProps;
 }
 
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AuthResponse {
+  jwt: string;
+  user: User;
+}
+
+export interface RegisterData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginData {
+  identifier: string; // can be email or username
+  password: string;
+}
