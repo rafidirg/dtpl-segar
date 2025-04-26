@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { FaShoppingCart } from "react-icons/fa";
 import { TbShoppingCart, TbShoppingCartExclamation } from "react-icons/tb";
-import parse from "html-react-parser";
 import { ProductProps } from "@/types";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
 import ReactMarkdown from "react-markdown";

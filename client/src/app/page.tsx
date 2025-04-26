@@ -4,7 +4,7 @@ import { getCategories, getProducts } from "@/data/loaders";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
-import { TbShoppingCart, TbShoppingCartExclamation } from "react-icons/tb";
+import { TbShoppingCartExclamation } from "react-icons/tb";
 import { CategoryProps, ProductProps } from "@/types";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
 import Link from "next/link";

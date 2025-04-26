@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect } from "react";
 
 export default function Header() {
@@ -30,26 +31,26 @@ export default function Header() {
       <nav className="mt-4">
         <ul className="flex space-x-4">
           <li>
-            <a href="/" className="text-lg hover:underline">
+            <Link href="/" className="text-lg hover:underline">
               Home
-            </a>
+            </Link>
           </li>
           {!isLloggedIn ? (
             <>
               <li>
-                <a href="/" className="text-lg hover:underline">
+                <Link href="/" className="text-lg hover:underline">
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/" className="text-lg hover:underline">
+                <Link href="/" className="text-lg hover:underline">
                   Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/login" className="text-lg hover:underline">
+                <Link href="/login" className="text-lg hover:underline">
                   Login
-                </a>
+                </Link>
               </li>
             </>
           ) : (

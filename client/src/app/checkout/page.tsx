@@ -22,7 +22,7 @@ export default function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState<string>(
     "Jl. Kenari 2 No.4, RW.5, Kenari, Kec. Senen, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10430"
   );
-  const [mapCenter, setMapCenter] = useState({
+  const [mapCenter, ] = useState({
     lat: -6.1942008,
     lng: 106.8482101,
   });
