@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 function getStrapiHostFromEnv() {
   try {
-    const rawUrl = process.env.STRAPI_API_URL || "http://localhost:1337";
+    const rawUrl =
+      process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
     const { hostname } = new URL(rawUrl);
     return hostname;
   } catch (err) {
