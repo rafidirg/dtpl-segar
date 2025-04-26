@@ -4,6 +4,59 @@ import { fetchAPI } from "@/utils/fetch-api";
 
 const BASE_URL = getStrapiURL();
 
+export async function login(email: string, password: string) {
+  const url = `${getStrapiURL()}/api/auth/local`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      identifier: email,
+      password: password,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message ?? "Invalid email or password");
+  }
+
+  localStorage.setItem("userEmail", email)
+
+  return response.json();
+}
+
+export async function registerUser({
+  email,
+  password,
+  username,
+}: {
+  email: string;
+  password: string;
+  username: string;
+}) {
+  const url = `${getStrapiURL()}/api/auth/local/register`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      username: username,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message ?? "Registration failed");
+  }
+
+  return response.json();
+}
+
 export async function getProductBySlug(slug: string, path: string) {
   const url = new URL(path, BASE_URL);
   url.search = qs.stringify({

@@ -12,9 +12,20 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const userId = localStorage.getItem("userEmail");
+    if (!userId) {
+      if (
+        window.confirm(
+          "You must be logged in to show carts. Would you like to login now?"
+        )
+      ) {
+        window.location.href = "/login";
+      }
+      return;
+    }
+
     const fetchCartData = async () => {
       try {
-        const userId = "abc";
         const cartData = await fetchCart(userId, "/api/carts");
         setCart(cartData.data);
       } catch (error) {

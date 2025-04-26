@@ -1,6 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 
 export default function Header() {
+  const [isLloggedIn, setIsLoggedIn] = React.useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsLoggedIn(!!localStorage.getItem("userEmail"));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userEmail");
+    setIsLoggedIn(false);
+    window.location.href = "/";
+  };
+
   return (
     <header className="bg-green-600 text-white p-6 flex items-center justify-between">
       <div>
@@ -12,25 +28,50 @@ export default function Header() {
       <nav className="mt-4">
         <ul className="flex space-x-4">
           <li>
-            <a href="#home" className="text-lg hover:underline">
+            <a href="/" className="text-lg hover:underline">
               Home
             </a>
           </li>
-          <li>
-            <a href="#about" className="text-lg hover:underline">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#products" className="text-lg hover:underline">
-              Products
-            </a>
-          </li>
-          <li>
-            <a href="#contact" className="text-lg hover:underline">
-              Contact
-            </a>
-          </li>
+          {!isLloggedIn ? (
+            <>
+              <li>
+                <a href="/" className="text-lg hover:underline">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="/" className="text-lg hover:underline">
+                  Products
+                </a>
+              </li>
+              <li>
+                <a href="/login" className="text-lg hover:underline">
+                  Login
+                </a>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <a href="/cart" className="text-lg hover:underline">
+                  Cart
+                </a>
+              </li>
+              <li>
+                <a href="/order" className="text-lg hover:underline">
+                  Order
+                </a>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="text-lg hover:underline"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>

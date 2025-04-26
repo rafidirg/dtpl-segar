@@ -29,9 +29,20 @@ export default function ProductClient({ product }: ProductClientProps) {
   };
 
   const handleAddToCart = async () => {
+    const userId = localStorage.getItem("userEmail");
+    if (!userId) {
+      if (
+        window.confirm(
+          "You must be logged in to add items to the cart. Would you like to login now?"
+        )
+      ) {
+        window.location.href = "/login";
+      }
+      return;
+    }
+
     try {
       setIsAdding(true);
-      const userId = "abc"; // Replace with actual user ID logic
       const response = await addToCart(
         userId,
         product.documentId,
