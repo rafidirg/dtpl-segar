@@ -14,6 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Pesan Panen</title>
+      </head>
       <body>
         <Header />
         {children}
