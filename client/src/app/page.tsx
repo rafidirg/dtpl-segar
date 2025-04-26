@@ -100,12 +100,17 @@ export default function Home() {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
         {filteredProducts.map((product) => (
           <Link key={product.id} href={`/product/${product.slug}`}>
-            <div key={product.id} className="relative border p-4 rounded-md text-center">
+            <div
+              key={product.id}
+              className="relative border p-4 rounded-md text-center"
+            >
               {product.isPreOrder ? (
-              <div className="absolute -top-3 -right-3 bg-red-600 rounded-full w-8 h-8 flex items-center justify-center">
-                <TbShoppingCartExclamation size={16} color="white" />
-              </div>
-              ):(<></>)}
+                <div className="absolute -top-3 -right-3 bg-red-600 rounded-full w-8 h-8 flex items-center justify-center">
+                  <TbShoppingCartExclamation size={16} color="white" />
+                </div>
+              ) : (
+                <></>
+              )}
               {product.image ? (
                 <Image
                   src={getStrapiMedia(product.image[0].url) ?? ""}

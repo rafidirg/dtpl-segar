@@ -22,7 +22,7 @@ export async function login(email: string, password: string) {
     throw new Error(errorData.message ?? "Invalid email or password");
   }
 
-  localStorage.setItem("userEmail", email)
+  localStorage.setItem("userEmail", email);
 
   return response.json();
 }
@@ -132,7 +132,7 @@ export async function fetchCart(userId: string, path: string) {
     },
     populate: {
       product: {
-        fields: ["name", "price", "isPreOrder"],
+        fields: ["name", "price", "isPreOrder", "cold_storage"],
         populate: {
           image: {
             fields: ["url"],
@@ -183,5 +183,40 @@ export async function removeFromCart(cartId: string, path: string) {
   const url = new URL(`${path}/${cartId}`, BASE_URL);
   return fetchAPI(url.href, {
     method: "DELETE",
+  });
+}
+
+export async function fetchOrder(userId: string, path: string) {
+  const url = new URL(path, BASE_URL);
+  url.search = qs.stringify({
+    filters: {
+      userId: {
+        $eq: userId,
+      },
+    },
+  });
+  return fetchAPI(url.href, { method: "GET" });
+}
+
+export async function addOrder(
+  userId: string,
+  alamat: string,
+  lat: number,
+  long: number,
+  status_order: string,
+  path: string
+) {
+  const url = new URL(path, BASE_URL);
+  return fetchAPI(url.href, {
+    method: "POST",
+    body: {
+      data: {
+        userId: userId,
+        alamat: alamat,
+        lat: lat,
+        long: long,
+        status_order: status_order,
+      },
+    },
   });
 }

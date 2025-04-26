@@ -66,3 +66,11 @@ export interface LoginData {
   identifier: string; // can be email or username
   password: string;
 }
+
+export interface OrderProps {
+  userId: string;
+  alamat: string;
+  lat: number;
+  long: number;
+  status_order: string;
+}

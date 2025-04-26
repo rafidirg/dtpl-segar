@@ -61,7 +61,6 @@ export default function ProductClient({ product }: ProductClientProps) {
 
   return (
     <div className="container mx-auto p-6">
-      <button className="text-gray-600 mb-4">&lt; Kembali</button>
       <div className="flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center relative">
           {images.length > 0 ? (

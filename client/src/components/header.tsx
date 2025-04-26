@@ -20,7 +20,9 @@ export default function Header() {
   return (
     <header className="bg-green-600 text-white p-6 flex items-center justify-between">
       <div>
-        <h1 className="text-4xl font-bold">Pesan Panen</h1>
+        <a href="/" className="text-white text-2xl font-bold">
+          Pesan Panen
+        </a>
         <p className="mt-2 text-xl">
           Memenuhi kebutuhan buah dan sayuran segar anda
         </p>

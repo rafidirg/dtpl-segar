@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "userId": {
+      "type": "string"
+    },
+    "alamat": {
+      "type": "text"
+    },
+    "lat": {
+      "type": "decimal"
+    },
+    "long": {
+      "type": "decimal"
+    },
+    "status_order": {
+      "type": "enumeration",
+      "enum": [
+        "Pending",
+        "Diproses",
+        "Dalam Perjalanan",
+        "Diterima",
+        "Selesai"
+      ]
+    }
+  }
+}

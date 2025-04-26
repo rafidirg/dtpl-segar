@@ -6,10 +6,12 @@ import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { CartProps } from "@/types";
 import { fetchCart, removeFromCart, updateCart } from "@/data/loaders";
 import { getStrapiMedia } from "@/utils/get-strapi-url";
+import { useRouter } from "next/navigation";
 
 export default function Cart() {
   const [cart, setCart] = useState<CartProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const userId = localStorage.getItem("userEmail");
@@ -138,7 +140,10 @@ export default function Cart() {
           <p className="text-green-500 font-bold text-lg">
             Rp{totalPrice.toLocaleString()}
           </p>
-          <button className="bg-green-500 text-white px-6 py-2 rounded-md">
+          <button
+            className="bg-green-500 text-white px-6 py-2 rounded-md"
+            onClick={() => router.push("/checkout")}
+          >
             Checkout
           </button>
         </div>
