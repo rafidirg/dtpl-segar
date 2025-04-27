@@ -106,8 +106,8 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
-                      Kebijakan & Privasi
+                    <a href="/faq-petani" className="hover:underline">
+                      FAQ Admin Petani
                     </a>
                   </li>
                   <li>
