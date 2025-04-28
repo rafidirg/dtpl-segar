@@ -529,7 +529,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.Enumeration<
-      ['Sayur', 'Buah', 'Protein', 'Sembako']
+      ['Sayur', 'Buah', 'Protein', 'Sembako', 'Pupuk']
     >;
     cold_storage: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
